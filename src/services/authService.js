@@ -6,5 +6,6 @@ export const authService = {
   me: () => api.get('/auth/me').then(r => r.data),
   updateProfile: (data) => api.patch('/auth/profile', data).then(r => r.data),
   forgotPassword: (email) => api.post('/auth/forgot-password', { email }).then(r => r.data),
-  resetPassword: (token, password) => api.post(`/auth/reset-password/${token}`, { password }).then(r => r.data)
+  resetPassword: (token, password) => api.post(`/auth/reset-password/${token}`, { password }).then(r => r.data),
+  verifyEmail: (token) => api.get(`/auth/verify-email/${token}`).then(r => r.data)
 };
