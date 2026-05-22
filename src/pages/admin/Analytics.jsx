@@ -24,7 +24,7 @@ const AdminAnalytics = () => {
       <h1 className="text-2xl font-bold">Analytics</h1>
 
       <div className="card p-5">
-        <h2 className="font-semibold mb-4">Monthly revenue (last 12 months)</h2>
+        <h2 className="font-semibold mb-4">Monthly revenues (last 12 months)</h2>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={revenueData}>
