@@ -6,3 +6,5 @@ dist
 *.log
 .vercel
 .node
+.env.example
+.env

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 const schema = yup.object({
   email: yup.string().email().required('Email is required'),
@@ -51,6 +52,7 @@ const Login = () => {
           </div>
           <button disabled={loading} className="btn-primary w-full !py-3">{loading ? 'Signing in…' : 'Sign in'}</button>
         </form>
+        <GoogleLoginButton mode="login" />
         <p className="text-sm text-center text-gray-500 mt-6">
           New here? <Link to="/register" className="text-brand-600 font-medium hover:underline">Create account</Link>
         </p>

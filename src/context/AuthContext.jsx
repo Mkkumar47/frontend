@@ -23,11 +23,40 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
+  const googleLogin = async (credentialResponse) => {
+    const { data } = await authService.googleLogin(credentialResponse.credential);
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+    return data.user;
+  };
+
   const register = async (payload) => {
     const { data } = await authService.register(payload);
     localStorage.setItem('token', data.token);
     setUser(data.user);
     return data.user;
+  };
+
+  const googleRegister = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+    try {
+      const { data } = await authService.googleRegister(token);
+      localStorage.setItem('token', data.token);
+      setUser(data.user);
+      return data.user;
+    } catch (err) {
+      const backendMessage = err.response?.data?.message || '';
+      const isMissingGoogleRegisterRoute =
+        err.response?.status === 404 && /route not found/i.test(backendMessage);
+
+      if (!isMissingGoogleRegisterRoute) throw err;
+
+      // Backward-compatible fallback when backend supports only google-login.
+      const { data } = await authService.googleLogin(token);
+      localStorage.setItem('token', data.token);
+      setUser(data.user);
+      return data.user;
+    }
   };
 
   const logout = () => { localStorage.removeItem('token'); setUser(null); };
@@ -38,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, setUser }}>
+    <AuthContext.Provider value={{ user, loading, login, googleLogin, register, googleRegister, logout, refreshUser, setUser }}>
       {children}
     </AuthContext.Provider>
   );
